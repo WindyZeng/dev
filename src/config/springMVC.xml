@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	
+	<!-- 配置自动扫描的包,springmvc只需扫描Controller -->
+	<context:component-scan base-package="com.mod" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	
+	<!-- web上下文配置协议 -->
+	<!-- <context:property-placeholder location="classpath:resources/context.properties"/> -->
+	
+	<!-- 配置视图解析器:如何把handler 方法返回值解析为实际的物理视图 -->
+	<bean id="JSPviewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewNames" value="*.jsp"></property>
+		<property name="prefix" value="/view/"></property>
+		<property name="suffix" value=""></property>
+		<property name="order" value="0"></property>
+	</bean>
+	<bean id="HTMLviewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/view/"></property>
+		<property name="suffix" value=".html"></property>
+		<property name="order" value="2"></property>
+	</bean>
+	
+	
+	<!-- 配置直接转发的页面,不需要经过Handler的方法 -->
+	<mvc:view-controller path="/success" view-name="success"/>
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- 配置国际化资源文件 -->
+	<!-- <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="validatemessages"></property>
+	</bean> -->
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="512000000" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="uploadTempDir" value="upload/temp/" />
+	</bean>
+	<bean id="processEngine" 
+		class="org.activiti.spring.ProcessEngineFactoryBean">   
+		<property name="processEngineConfiguration" 
+			ref="processEngineConfiguration" />
+	</bean> 
+	<bean id="processEngineConfiguration"  
+		class="org.activiti.spring.SpringProcessEngineConfiguration">   
+		<property name="dataSource" ref="dataSource" />   
+		<property name="transactionManager" ref="transactionManager" />   
+		<property name="databaseSchemaUpdate" value="false" />   
+		<property name="jobExecutorActivate" value="false" />
+		<property name="dbHistoryUsed" value="false" />
+		<property name="dbIdentityUsed" value="false" />  
+	</bean>
+	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />   
+	<bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />   
+	<bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />   
+	<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />   
+	<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" /> 
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://115.29.137.247:3306/mesclouds?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+		<property name="username" value="root" />
+		<property name="password" value="asdfghjkl!@#" />
+	</bean>
+</beans>
