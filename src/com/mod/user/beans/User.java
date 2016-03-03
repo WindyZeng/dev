@@ -1,11 +1,27 @@
-package com.mod.beans;
+package com.mod.user.beans;
 
+import javax.persistence.*;
+
+@Entity(name="users")
 public class User {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="uid")
 	private long uid;
+	
+	@Column(name="loginname",length=32)
 	private String loginname;
+	
+	@Column(name="loginpass")
 	private String loginpass;
+	
+	@Column(name="email")
 	private String email;
+	
+	@Column(name="status")
 	private boolean status;
+	
+	@Column(name="activationCode")
 	private String activationCode;
 	
 	

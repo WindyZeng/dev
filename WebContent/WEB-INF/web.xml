@@ -5,6 +5,7 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+  
   <!-- 配置logger4j -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
@@ -17,11 +18,12 @@
 		</listener-class>
 	</listener>
   
-  <!-- 配置spring -->
+  <!-- 配置spring hibernate -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:config/spring.xml
+			classpath:config/hibernate.cfg.xml
 		</param-value>
 	</context-param> 
   <listener>
