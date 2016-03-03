@@ -18,11 +18,11 @@ public class User {
 	@Column(name="email")
 	private String email;
 	
-	@Column(name="status")
-	private boolean status;
-	
-	@Column(name="activationCode")
-	private String activationCode;
+//	@Column(name="status")
+//	private boolean status;
+//	
+//	@Column(name="activationCode")
+//	private String activationCode;
 	
 	
 	public long getUid() {
@@ -49,18 +49,18 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public boolean isStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	public String getActivationCode() {
-		return activationCode;
-	}
-	public void setActivationCode(String activationCode) {
-		this.activationCode = activationCode;
-	}
+//	public boolean isStatus() {
+//		return status;
+//	}
+//	public void setStatus(boolean status) {
+//		this.status = status;
+//	}
+//	public String getActivationCode() {
+//		return activationCode;
+//	}
+//	public void setActivationCode(String activationCode) {
+//		this.activationCode = activationCode;
+//	}
 	
 	
 }
